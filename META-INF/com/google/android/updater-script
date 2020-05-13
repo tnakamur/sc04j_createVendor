@@ -1,0 +1,27 @@
+assert(is_substring("A320F", getprop("ro.boot.bootloader")) || is_substring("A320FL", getprop("ro.boot.bootloader")) || is_substring("A320Y", getprop("ro.boot.bootloader")) ||
+abort("This script is for a3y17lte only"););
+
+ui_print(".................................");
+ui_print(" ");
+ui_print("   Treble-lizer for a3y17lte   ");
+ui_print("   Done by @Astrako   ");
+ui_print(" ");
+ui_print(".................................");
+
+ifelse(is_mounted("/system"), unmount("/system"));
+ifelse(is_mounted("/cache"), unmount("/cache"));
+ifelse(is_mounted("/data"), unmount("/data"));
+
+package_extract_file("sgdisk", "/tmp/sgdisk");
+set_perm(0, 0, 0777, "/tmp/sgdisk");
+package_extract_file("vendor.sh", "/tmp/vendor.sh");
+set_perm(0, 0, 0777, "/tmp/vendor.sh");
+run_program("/tmp/vendor.sh");
+delete_recursive("/tmp/vendor.sh");
+
+package_extract_file("twrp_treble.img", "/dev/block/platform/13540000.dwmmc0/by-name/RECOVERY");
+
+ui_print(" ");
+ui_print("   Finished   ");
+ui_print("   Please reboot to recovery again before installing anything   ");
+ui_print(" ");
